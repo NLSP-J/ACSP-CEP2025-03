@@ -1,7 +1,10 @@
 import random
 import word as w
+import asyncio
 
-ans = random.choice(w.word_list)
+random.seed(time.time())
+L = w.word_list
+ans = L[random.randint(0,len(L))]
 
 import pygame as pg
 import time
@@ -10,7 +13,7 @@ pg.init()
 win_width = 500
 win_height = 650
 screen = pg.display.set_mode([win_width, win_height])
-pg.display.set_caption('wordle')
+pg.display.set_caption('word game')
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -76,7 +79,7 @@ def draw_win():
         time.sleep(2)
         running = False
 
-def main():
+async def main():
     global running, letters, count
     while running:
         for event in pg.event.get():
@@ -100,6 +103,7 @@ def main():
         draw_board()
         draw_win()
 
-        pg.display.flip()
+        pg.display.update()
+        await asyncio.sleep(0)
 
-main()
+asyncio.run(main())
