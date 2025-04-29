@@ -37,6 +37,7 @@ count = 0
 letters = 0
 game_over = False
 running = True
+winner = False
 
 def draw_board():
     for col in range(5):
@@ -50,7 +51,7 @@ def draw_board():
     pg.draw.rect(screen, green, rectangle, width = 1)
 
 def check_match():
-    global game_over
+    global game_over, winner
     for col in range(5):
         for row in range(10):
             highlight = pg.Rect(col * 50 + 6, row * 50 + 6, 37, 37)
@@ -62,17 +63,18 @@ def check_match():
         guess = ''.join(game_board[row])
         if guess == ans and row < count:
             game_over = True
+            winner = True
 
 def draw_win():
     global game_over, running
-    if count == 10:
+    if count == 10 and not winner:
         game_over = True
         text = font.render('You lost😒', True, yellow)
         screen.blit(text, (15, 560))
         pg.display.flip()
         time.sleep(2)
         running = False
-    if game_over and count < 10:
+    if game_over and winner:
         text = font.render('You win!🙌',True, yellow)
         screen.blit(text, (15, 560))
         pg.display.flip()
